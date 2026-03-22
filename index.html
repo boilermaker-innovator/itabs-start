@@ -1,1 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iTabs | Get Your Widget Built</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1e1e2e;
+            --text-primary: #ffffff;
+            --text-secondary: #9090b0;
+            --accent: #7c3aed;
+            --accent2: #06b6d4;
+            --i-button: #f59e0b;
+            --border: rgba(255,255,255,0.1);
+            --radius: 12px;
+        }
+        html, body {
+            min-height: 100%;
+            background: var(--bg-primary);
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: var(--text-primary);
+        }
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 24px 20px 48px;
+        }
 
+        /* Test banner */
+        .test-banner {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #fcd34d;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 24px 0 28px;
+        }
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .logo-mark {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+        }
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a78bfa, #67e8f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 10px;
+        }
+        .header h1 em {
+            font-style: normal;
+            color: #a78bfa;
+        }
+        .header p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .price-badge {
+            display: inline-block;
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(124, 58, 237, 0.4);
+            color: #a78bfa;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-top: 14px;
+        }
+
+        /* Form card */
+        .form-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px 20px;
+            margin-bottom: 16px;
+        }
+        .form-card h2 {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+        }
+
+        .field-group { margin-bottom: 16px; }
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+        label span.required { color: #f59e0b; margin-left: 2px; }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        input::placeholder, textarea::placeholder { color: rgba(144, 144, 176, 0.5); }
+        input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239090b0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px;
+            cursor: pointer;
+        }
+        select option { background: #1e1e2e; }
+        textarea { resize: vertical; min-height: 80px; }
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* Colour picker */
+        .colour-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        .colour-option { display: none; }
+        .colour-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px 4px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .colour-swatch { width: 32px; height: 32px; border-radius: 50%; }
+        .colour-name {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+        }
+        .colour-option:checked + .colour-label {
+            border-color: var(--accent);
+            background: rgba(124, 58, 237, 0.15);
+        }
+        .colour-option:checked + .colour-label .colour-name { color: #a78bfa; }
+
+        /* Tone toggle */
+        .tone-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+        .tone-option { display: none; }
+        .tone-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 8px;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        .tone-emoji { font-size: 20px; }
+        .tone-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .tone-option:checked + .tone-label {
+            border-color: var(--accent2);
+            background: rgba(6, 182, 212, 0.1);
+        }
+        .tone-option:checked + .tone-label .tone-text { color: #67e8f9; }
+
+        /* Submit button */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            border: none;
+            border-radius: var(--radius);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s ease, transform 0.1s ease;
+            margin-top: 4px;
+        }
+        .submit-btn:hover { opacity: 0.9; }
+        .submit-btn:active { transform: scale(0.98); }
+        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* What happens next */
+        .next-steps {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+        .next-steps h3 {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 14px;
+        }
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .step-item:last-child { margin-bottom: 0; }
+        .step-num {
+            width: 22px;
+            height: 22px;
+            min-width: 22px;
+            border-radius: 50%;
+            background: rgba(124, 58, 237, 0.3);
+            color: #a78bfa;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1px;
+        }
+        .step-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .step-text strong { color: var(--text-primary); }
+
+        /* Success screen */
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .success-screen.show { display: block; }
+        .success-icon { font-size: 56px; margin-bottom: 20px; }
+        .success-screen h2 { font-size: 24px; font-weight: 700; margin-bottom: 12px; }
+        .success-screen p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .url-preview {
+            background: var(--bg-tertiary);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .url-preview-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #67e8f9;
+            margin-bottom: 6px;
+        }
+        .url-preview-value {
+            font-size: 13px;
+            color: var(--text-primary);
+            word-break: break-all;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="test-banner">🧪 TEST MODE — Pre-filled with dummy data</div>
+
+    <div class="header">
+        <div class="logo">
+            <div class="logo-mark">i</div>
+            <div class="logo-text">iTabs</div>
+        </div>
+        <h1>Get your <em>tradie widget</em> built</h1>
+        <p>Fill in the brief below. We'll build your branded quote estimator and send you the live link.</p>
+        <div class="price-badge">💳 $290 one-off · No subscriptions · Yours forever</div>
+    </div>
+
+    <div id="formWrapper">
+        <form id="itabsForm">
+            <input type="hidden" name="access_key" value="99a11c15-5c61-4765-99c5-673adec64b16">
+            <input type="hidden" name="to" value="build@itabs.ai">
+            <input type="hidden" name="subject" id="formSubject" value="iTabs Widget Brief — Perth Pro Plumbing">
+            <input type="hidden" name="from_name" value="iTabs Start Form">
+            <input type="hidden" name="redirect" value="">
+            <input type="checkbox" name="botcheck" style="display:none">
+
+            <!-- Business details -->
+            <div class="form-card">
+                <h2>🏢 Your Business</h2>
+
+                <div class="field-group">
+                    <label>Business Name <span class="required">*</span></label>
+                    <input type="text" name="business_name" id="businessName" value="Perth Pro Plumbing" required>
+                </div>
+
+                <div class="field-row">
+                    <div class="field-group">
+                        <label>Trade <span class="required">*</span></label>
+                        <select name="trade" required>
+                            <option value="" disabled>Select...</option>
+                            <option selected>Plumber</option>
+                            <option>Electrician</option>
+                            <option>Builder</option>
+                            <option>Fencer</option>
+                            <option>Painter</option>
+                            <option>Roofer</option>
+                            <option>Tiler</option>
+                            <option>Landscaper</option>
+                            <option>Concretor</option>
+                            <option>Carpenter</option>
+                            <option>Air Con</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label>Suburb <span class="required">*</span></label>
+                        <input type="text" name="suburb" value="Joondalup" required>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Phone <span class="required">*</span></label>
+                    <input type="tel" name="phone" value="0412 555 333" required>
+                </div>
+
+                <div class="field-group">
+                    <label>Your Email <span class="required">*</span></label>
+                    <input type="email" name="email" value="jgwynne7@gmail.com" required>
+                </div>
+            </div>
+
+            <!-- Services -->
+            <div class="form-card">
+                <h2>🔧 Your Services</h2>
+                <div class="field-group">
+                    <label>Main Services <span class="required">*</span> <span style="font-weight:400;color:var(--text-secondary)">(3–5, comma separated)</span></label>
+                    <textarea name="services" required>Blocked drains, Hot water systems, Gas leaks, Burst pipes, Bathroom renovations</textarea>
+                </div>
+            </div>
+
+            <!-- Brand -->
+            <div class="form-card">
+                <h2>🎨 Brand & Vibe</h2>
+
+                <div class="field-group">
+                    <label>Brand Colour</label>
+                    <div class="colour-grid">
+                        <div>
+                            <input type="radio" name="brand_colour" id="col-blue" value="Blue" class="colour-option" checked>
+                            <label class="colour-label" for="col-blue">
+                                <div class="colour-swatch" style="background: linear-gradient(135deg, #1d4ed8, #06b6d4)"></div>
+                                <span class="colour-name">Blue</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" name="brand_colour" id="col-green" value="Green" class="colour-option">
+                            <label class="colour-label" for="col-green">
+                                <div class="colour-swatch" style="background: linear-gradient(135deg, #059669, #10b981)"></div>
+                                <span class="colour-name">Green</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" name="brand_colour" id="col-orange" value="Orange" class="colour-option">
+                            <label class="colour-label" for="col-orange">
+                                <div class="colour-swatch" style="background: linear-gradient(135deg, #ea580c, #f59e0b)"></div>
+                                <span class="colour-name">Orange</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" name="brand_colour" id="col-red" value="Red" class="colour-option">
+                            <label class="colour-label" for="col-red">
+                                <div class="colour-swatch" style="background: linear-gradient(135deg, #dc2626, #ef4444)"></div>
+                                <span class="colour-name">Red</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" name="brand_colour" id="col-purple" value="Purple" class="colour-option">
+                            <label class="colour-label" for="col-purple">
+                                <div class="colour-swatch" style="background: linear-gradient(135deg, #7c3aed, #4f46e5)"></div>
+                                <span class="colour-name">Purple</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" name="brand_colour" id="col-yellow" value="Yellow" class="colour-option">
+                            <label class="colour-label" for="col-yellow">
+                                <div class="colour-swatch" style="background: linear-gradient(135deg, #ca8a04, #fcd34d)"></div>
+                                <span class="colour-name">Yellow</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" name="brand_colour" id="col-grey" value="Grey" class="colour-option">
+                            <label class="colour-label" for="col-grey">
+                                <div class="colour-swatch" style="background: linear-gradient(135deg, #475569, #94a3b8)"></div>
+                                <span class="colour-name">Grey</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" name="brand_colour" id="col-black" value="Black" class="colour-option">
+                            <label class="colour-label" for="col-black">
+                                <div class="colour-swatch" style="background: linear-gradient(135deg, #1e293b, #334155)"></div>
+                                <span class="colour-name">Black</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field-group" style="margin-top:20px">
+                    <label>Widget Tone</label>
+                    <div class="tone-row">
+                        <div>
+                            <input type="radio" name="tone" id="tone-professional" value="Professional" class="tone-option">
+                            <label class="tone-label" for="tone-professional">
+                                <span class="tone-emoji">👔</span>
+                                <span class="tone-text">Professional</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" name="tone" id="tone-friendly" value="Friendly" class="tone-option" checked>
+                            <label class="tone-label" for="tone-friendly">
+                                <span class="tone-emoji">😊</span>
+                                <span class="tone-text">Friendly</span>
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" name="tone" id="tone-nofrills" value="No Frills" class="tone-option">
+                            <label class="tone-label" for="tone-nofrills">
+                                <span class="tone-emoji">🔨</span>
+                                <span class="tone-text">No Frills</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Anything else -->
+            <div class="form-card">
+                <h2>💬 Anything Else?</h2>
+                <div class="field-group">
+                    <label>Extra notes <span style="font-weight:400;color:var(--text-secondary)">(optional)</span></label>
+                    <textarea name="notes">Family owned and operated since 2008. We service all of Perth's northern suburbs. Tagline: "No job too big or too small."</textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                ⚡ Send My Brief →
+            </button>
+        </form>
+
+        <div class="next-steps">
+            <h3>What happens next</h3>
+            <div class="step-item">
+                <div class="step-num">1</div>
+                <div class="step-text">Your brief hits our inbox at <strong>build@itabs.ai</strong></div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">2</div>
+                <div class="step-text">We <strong>build your branded widget</strong> — usually within a few hours</div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">3</div>
+                <div class="step-text">You get the <strong>live link</strong> straight to your inbox — share it anywhere</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="success-screen" id="successScreen">
+        <div class="success-icon">🎉</div>
+        <h2>Brief sent!</h2>
+        <p>We've got your brief and we're on it. Your widget will be built and sent to your email — keep an eye on your inbox.</p>
+        <div class="url-preview">
+            <div class="url-preview-label">📍 Your widget will be live at</div>
+            <div class="url-preview-value" id="predictedUrl"></div>
+        </div>
+        <p style="font-size:13px;color:var(--text-secondary)">Questions? Reply to the confirmation email or reach us at <strong style="color:white">build@itabs.ai</strong></p>
+    </div>
+
+</div>
+
+<script>
+    const form = document.getElementById('itabsForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const formWrapper = document.getElementById('formWrapper');
+    const successScreen = document.getElementById('successScreen');
+    const predictedUrl = document.getElementById('predictedUrl');
+    const businessNameInput = document.getElementById('businessName');
+    const formSubject = document.getElementById('formSubject');
+
+    businessNameInput.addEventListener('input', function() {
+        const name = this.value.trim();
+        formSubject.value = name ? `iTabs Widget Brief — ${name}` : 'iTabs Widget Brief';
+    });
+
+    function slugify(text) {
+        return text.toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-')
+            .trim();
+    }
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending brief...';
+
+        const formData = new FormData(form);
+        const businessName = businessNameInput.value.trim();
+        const slug = slugify(businessName);
+        const widgetUrl = `https://boilermaker-innovator.github.io/itabs-quotes/${slug}/`;
+        formData.append('predicted_widget_url', widgetUrl);
+
+        try {
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            if (data.success) {
+                predictedUrl.textContent = widgetUrl;
+                formWrapper.style.display = 'none';
+                successScreen.classList.add('show');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                throw new Error(data.message || 'Submission failed');
+            }
+        } catch (err) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '⚡ Send My Brief →';
+            alert('Something went wrong. Please try again or email build@itabs.ai directly.');
+            console.error(err);
+        }
+    });
+</script>
+</body>
+</html>
